@@ -2,18 +2,28 @@ import React from 'react';
 import CharactersService from '../services/charactersAPI';
 import Table from './Table';
 
+const timeout = 30000;
+
+const {
+  REACT_APP_HAWKINS_URL = 'http://localhost:3002',
+  REACT_APP_HAWKINS_TIMEOUT = timeout,
+  REACT_APP_UPSIDEDOWN_URL = 'http://localhost:3003',
+  REACT_APP_UPSIDEDOWN_TIMEOUT = timeout,
+  REACT_APP_DEVELOPMENT= false,
+} = process.env;
+
 const getRealityClass = (hereIsTheUpsideDownWorld) => (
   hereIsTheUpsideDownWorld ? 'upside-down' : 'stranger-things'
 );
 
 const strangerThingsConfig = {
-  url: 'http://localhost:3002',
-  timeout: 30000,
+  url: REACT_APP_HAWKINS_URL,
+  timeout: REACT_APP_HAWKINS_TIMEOUT,
 };
 
 const upsideDownConfig = {
-  url: 'http://localhost:3003',
-  timeout: 30000,
+  url: REACT_APP_UPSIDEDOWN_URL,
+  timeout: REACT_APP_UPSIDEDOWN_TIMEOUT,
 };
 
 const charactersService = new CharactersService(strangerThingsConfig);
@@ -115,6 +125,7 @@ class StrangerThings extends React.Component {
       >
         <div className="content strangerfy">
           <div className="change-reality">
+            { JSON.parse(REACT_APP_DEVELOPMENT) && <h3>development</h3>}
             <button type="button" onClick={ this.changeRealityClick }>
               {' '}
               Mudar de Realidade
